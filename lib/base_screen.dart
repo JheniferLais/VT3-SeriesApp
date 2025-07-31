@@ -11,7 +11,7 @@ class BaseScreen extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Row(
-            mainAxisAlignment: MainAxisAlignment.end, // Alinha à direita
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [Text('Eu Amo Séries 🎬')],
           ),
         ),

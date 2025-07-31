@@ -28,7 +28,6 @@ class TvShow {
       summary: json['summary'] ?? 'Sem resumo disponivel',
     );
   }
-
 }
 
 class TvShowModel extends ChangeNotifier {
@@ -42,6 +41,14 @@ class TvShowModel extends ChangeNotifier {
       return await _tvShowService.fetchTvShows(query);
     } catch (e) {
       throw Exception('Falha ao buscar séries: ${e.toString()}');
+    }
+  }
+
+  Future<TvShow> getTvShowById(int id) async {
+    try {
+      return await _tvShowService.fetchTvShowById(id);
+    } catch (e) {
+      throw Exception('Falha ao buscar série por id: ${e.toString()}');
     }
   }
 

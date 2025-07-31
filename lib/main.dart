@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import 'fav_tv_show_screen.dart';
+
 void main() {
   runApp(
     MultiProvider(
@@ -20,12 +22,19 @@ void main() {
 }
 
 final GoRouter _router = GoRouter(
-  initialLocation: '/search',
+  initialLocation: '/',
   routes: [
     ShellRoute(
       builder: (context, state, child) => BaseScreen(child: child),
       routes: [
-        GoRoute(path: '/', builder: (context, state) => TvShowScreen()),
+        GoRoute(path: '/', builder: (context, state) => FavTvShowScreen()),
+        GoRoute(
+            path: '/tv_show/:id',
+            builder: (context, state) {
+              final id = int.parse(state.pathParameters['id']!);
+              return TvShowScreen(id: id);
+            },
+        ),
         GoRoute(
           path: '/search',
           builder: (context, state) => TvShowSearchScreen(),

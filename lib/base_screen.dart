@@ -14,15 +14,13 @@ class BaseScreen extends StatelessWidget {
   });
 
   void _openSortingMenu(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
+    showModalBottomSheet(context: context, builder: (context) {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
               leading: Icon(Icons.arrow_upward),
-              title: Text('Ordenação Crescente'),
+              title: Text('Ordenar por Rating (Crescente)'),
               onTap: () {
                 context.read<TvShowModel>().sortByRatingAscending();
                 Navigator.pop(context);
@@ -30,9 +28,26 @@ class BaseScreen extends StatelessWidget {
             ),
             ListTile(
               leading: Icon(Icons.arrow_downward),
-              title: Text('Ordenação Decrescente'),
+              title: Text('Ordenar por Rating (Decrescente)'),
               onTap: () {
                 context.read<TvShowModel>().sortByRatingDescending();
+                Navigator.pop(context);
+              },
+            ),
+            Divider(),
+            ListTile(
+              leading: Icon(Icons.sort_by_alpha),
+              title: Text('Ordenar por Nome (A–Z)'),
+              onTap: () {
+                context.read<TvShowModel>().sortByNameAscending();
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.sort_by_alpha_outlined),
+              title: Text('Ordenar por Nome (Z–A)'),
+              onTap: () {
+                context.read<TvShowModel>().sortByNameDescending();
                 Navigator.pop(context);
               },
             ),
@@ -54,10 +69,9 @@ class BaseScreen extends StatelessWidget {
       drawer: CustomDrawer(),
       body: child,
 
-      // Botão FAB para ordenação nas telas de SEARCH e FAV
+      // Botão FAB para ordenação
       floatingActionButton: FloatingActionButton(
         onPressed: () => _openSortingMenu(context),
-        tooltip: 'Ordenar por Rating',
         child: Icon(Icons.sort),
       ),
     );

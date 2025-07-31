@@ -36,6 +36,16 @@ class TvShowModel extends ChangeNotifier {
   final List<TvShow> _tvShows = [];
   List<TvShow> get tvShows => _tvShows;
 
+  void sortByRatingAscending() {
+    _tvShows.sort((a, b) => a.rating.compareTo(b.rating));
+    notifyListeners();
+  }
+
+  void sortByRatingDescending() {
+    _tvShows.sort((a, b) => b.rating.compareTo(a.rating));
+    notifyListeners();
+  }
+
   Future<List<TvShow>> searchTvShows(String query) async {
     try {
       return await _tvShowService.fetchTvShows(query);

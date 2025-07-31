@@ -19,11 +19,12 @@ class _TvShowSearchScreenState extends State<TvShowSearchScreen> {
 
   bool onSubmit = false;
 
-  void submit() {
+  void submit() async {
     if (_formKey.currentState!.validate()) {
       final tvShowModel = context.read<TvShowModel>();
+      onSubmit = true;
+
       setState(() {
-        onSubmit = true;
         searchResults = tvShowModel.searchTvShows(_searchController.text);
       });
     }
@@ -62,61 +63,63 @@ class _TvShowSearchScreenState extends State<TvShowSearchScreen> {
           const SizedBox(height: 16),
           onSubmit
               ? Expanded(
-            child: FutureBuilder<List<TvShow>>(
-              future: searchResults,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                } else if (snapshot.hasError) {
-                  return Center(
-                    child: Container(
-                      padding: const EdgeInsets.all(32),
-                      child: Column(
-                        children: [
-                          Text(
-                            "Ocorreu um erro: ${snapshot.error}",
-                            style: const TextStyle(fontSize: 24),
-                          ),
-                          ElevatedButton(
-                            onPressed: () => context.go("/"),
-                            child: const Text("Voltar"),
-                          ),
-                        ],
+                child: FutureBuilder<List<TvShow>>(
+                future: searchResults,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(),
                       ),
-                    ),
-                  );
-                } else if (onSubmit &&
-                    (!snapshot.hasData || snapshot.data!.isEmpty)) {
-                  return const Center(
-                    child: Text(
-                      "Nenhum resultado encontrado",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  );
-                } else {
-                  return Column(
-                    children: [
-                      Text(
-                        '${snapshot.data!.length} resultados encontrados',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Theme.of(context).colorScheme.primary,
-                          fontWeight: FontWeight.bold,
+                    );
+                  }
+                  else if (snapshot.hasError) {
+                    return Center(
+                      child: Container(
+                        padding: const EdgeInsets.all(32),
+                        child: Column(
+                          children: [
+                            Text(
+                              "Ocorreu um erro: ${snapshot.error}",
+                              style: const TextStyle(fontSize: 24),
+                            ),
+                            ElevatedButton(
+                              onPressed: () => context.go("/"),
+                              child: const Text("Voltar"),
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(height: 16),
-                      Expanded(
-                        child: TvShowGrid(tvShows: snapshot.data!),
+                    );
+                  }
+                  else if (onSubmit && (!snapshot.hasData || snapshot.data!.isEmpty)) {
+                    return const Center(
+                      child: Text(
+                        "Nenhum resultado encontrado",
+                        style: TextStyle(fontSize: 18),
                       ),
-                    ],
-                  );
-                }
+                    );
+                  }
+                  else {
+                    return Column(
+                      children: [
+                        Text(
+                          '${snapshot.data!.length} resultados encontrados',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        Expanded(
+                          child: TvShowGrid(tvShows: snapshot.data!),
+                        ),
+                      ],
+                    );
+                  }
               },
             ),
           )

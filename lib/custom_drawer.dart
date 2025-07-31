@@ -45,14 +45,6 @@ class CustomDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.favorite),
-            title: Text('Favoritas'),
-            onTap: () {
-              Navigator.of(context).pop();
-              context.go('/');
-            },
-          ),
-          ListTile(
             leading: Icon(Icons.search),
             title: Text('Buscar'),
             onTap: () {
@@ -61,6 +53,15 @@ class CustomDrawer extends StatelessWidget {
               context.go('/search');
             },
           ),
+          ListTile(
+            leading: Icon(Icons.favorite),
+            title: Text('Favoritas'),
+            onTap: () {
+              Navigator.of(context).pop();
+              context.go('/');
+            },
+          ),
+
         ],
       ),
     );

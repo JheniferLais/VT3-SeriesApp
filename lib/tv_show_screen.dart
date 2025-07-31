@@ -34,7 +34,8 @@ class _TvShowScreenState extends State<TvShowScreen> {
               child: CircularProgressIndicator(strokeWidth: 12),
             ),
           );
-        } else if (snapshot.hasError) {
+        }
+        else if (snapshot.hasError) {
           return Center(
             child: Container(
               padding: EdgeInsets.all(32),
@@ -53,7 +54,8 @@ class _TvShowScreenState extends State<TvShowScreen> {
               ),
             ),
           );
-        } else {
+        }
+        else {
           return Container(
             padding: EdgeInsets.all(32),
             child: SingleChildScrollView(

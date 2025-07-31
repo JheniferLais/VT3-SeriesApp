@@ -14,9 +14,7 @@ class _FavTvShowScreenState extends State<FavTvShowScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var tvShows = context
-        .watch<TvShowModel>()
-        .tvShows;
+    var tvShows = context.watch<TvShowModel>().tvShows;
 
     return Container(
       padding: EdgeInsets.all(16),
@@ -25,7 +23,7 @@ class _FavTvShowScreenState extends State<FavTvShowScreen> {
           Text(
             tvShows.isEmpty ? 'Nenhuma série favorita!' : 'Favoritas',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-          ), // Text
+          ),
           SizedBox(height: 16),
           Expanded(child: TvShowGrid(tvShows: tvShows)),
         ],

@@ -30,7 +30,7 @@ class _TvShowGridState extends State<TvShowGrid> {
         return Stack(
           children: [
             GestureDetector(
-              onTap: () => context.go('/tv_show/${tvShow.id}'),
+              onTap: () => context.go('/tvshow/${tvShow.id}'),
               child: Card(
                 elevation: 5,
                 margin: EdgeInsets.zero,
@@ -90,20 +90,51 @@ class _TvShowGridState extends State<TvShowGrid> {
                 ),
               ),
             ),
-            tvShowModel.tvShows.any((show) => show.id == tvShow.id)
-                ? Positioned(
-              child: IconButton(
-                onPressed: () =>
-                    tvShowModel.removeTvShow(tvShow, context),
-                icon: Icon(Icons.favorite, size: 32, color: Colors.red),
-              ),
-            )
-                : Positioned(
-              child: IconButton(
-                onPressed: () =>
-                    tvShowModel.addTvShow(tvShow, context),
-                icon: Icon(Icons.favorite_border_sharp, size: 32),
-              ),
+            FutureBuilder<bool>(
+              future: tvShowModel.isFavorite(tvShow),
+              builder: (context, snapshot) {
+                final isFavorite = snapshot.data ?? false;
+                return Positioned(
+                  child: IconButton(
+                    icon: Icon(
+                      isFavorite ? Icons.favorite : Icons.favorite_border,
+                      size: 32,
+                      color: isFavorite ? Colors.red : null,
+                    ),
+                    onPressed: () {
+                      if (isFavorite) {
+                        tvShowModel.removeFromFavorites(tvShow);
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).clearSnackBars();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('${tvShow.name} desfavoritada!'),
+                              duration: Duration(seconds: 3),
+                              action: SnackBarAction(
+                                label: 'DESFAZER',
+                                onPressed: () {
+                                  tvShowModel.addToFavorites(tvShow);
+                                },
+                              ),
+                            ),
+                          );
+                        }
+                      } else {
+                        tvShowModel.addToFavorites(tvShow);
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).clearSnackBars();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('${tvShow.name} favoritada!'),
+                              duration: const Duration(seconds: 2),
+                            ),
+                          );
+                        }
+                      }
+                    },
+                  ),
+                );
+              },
             ),
           ],
         );

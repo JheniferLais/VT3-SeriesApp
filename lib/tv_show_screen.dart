@@ -112,7 +112,7 @@ class _TvShowScreenState extends State<TvShowScreen> {
                         child: Text('VOLTAR'),
                       ),
                       SizedBox(width: 16),
-                      tvShowModel.tvShows.any((show) => show.id == tvShow.id)
+                      tvShowModel.favTvShows.any((show) => show.id == tvShow.id)
                           ? ElevatedButton(
                         onPressed: () {
                           tvShowModel.removeTvShow(tvShow, context);

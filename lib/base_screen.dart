@@ -1,6 +1,7 @@
 import 'package:app3_series_api/custom_drawer.dart';
 import 'package:app3_series_api/tv_show_model.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class BaseScreen extends StatelessWidget {
@@ -59,6 +60,9 @@ class BaseScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final currentPath = GoRouterState.of(context).uri.path;
+
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -70,10 +74,12 @@ class BaseScreen extends StatelessWidget {
       body: child,
 
       // Botão FAB para ordenação
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _openSortingMenu(context),
-        child: Icon(Icons.sort),
-      ),
+      floatingActionButton: currentPath == "/"
+          ? FloatingActionButton(
+            onPressed: () => _openSortingMenu(context),
+            child: Icon(Icons.sort),
+          )
+      : null,
     );
   }
 }
